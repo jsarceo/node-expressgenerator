@@ -1,10 +1,10 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 const Campsite = require('../models/campsite');
 
 const campsiteRouter = express.Router();
 
-campsiteRouter.use(bodyParser.json());
+// campsiteRouter.use(bodyParser.json());
 
 campsiteRouter.route('/')
 .get((req, res, next) => {
@@ -16,6 +16,7 @@ campsiteRouter.route('/')
     })
     .catch(err => next(err));
 })
+
 .post((req, res, next) => {
     Campsite.create(req.body)
     .then(campsite => {
@@ -26,10 +27,12 @@ campsiteRouter.route('/')
     })
     .catch(err => next(err));
 })
+
 .put((req, res) => {
     res.statusCode = 403;
     res.end('PUT operation not supported on /campsites');
 })
+
 .delete((req, res, next) => {
     Campsite.deleteMany()
     .then(response => {
@@ -50,10 +53,12 @@ campsiteRouter.route('/:campsiteId')
     })
     .catch(err => next(err));
 })
+
 .post((req, res) => {
     res.statusCode = 403;
     res.end(`POST operation not supported on /campsites/${req.params.campsiteId}`);
 })
+
 .put((req, res, next) => {
     Campsite.findByIdAndUpdate(req.params.campsiteId, {
         $set: req.body
@@ -65,6 +70,7 @@ campsiteRouter.route('/:campsiteId')
     })
     .catch(err => next(err));
 })
+
 .delete((req, res, next) => {
     Campsite.findByIdAndDelete(req.params.campsiteId)
     .then(response => {
